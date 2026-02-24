@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface BidListService {
 
-    List<BidListDTO> findAll();
+    List<BidListDTO> findAllBids();
+
     BidListDTO addBidList(BidListDTO bidListDTO);
-    BidListDTO updateBidList(BidListDTO bidListDTO);
-    void deleteBidList(Integer id);
+
     BidListDTO getBidList(Integer id);
+
+    BidListDTO updateBidList(BidListDTO bidListDTO);
+
+    void deleteBidList(Integer id);
 }

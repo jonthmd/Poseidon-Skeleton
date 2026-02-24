@@ -9,5 +9,4 @@ public interface BidListMapper {
 
     BidListDTO BidListToBidListDTO(BidList bidList);
     BidList BidListDTOToBidList(BidListDTO bidListDTO);
-
 }

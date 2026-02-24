@@ -4,14 +4,12 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDTO;
 import com.nnk.springboot.mapper.BidListMapper;
 import com.nnk.springboot.repositories.BidListRepository;
-import com.nnk.springboot.services.BidListService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,25 +30,25 @@ class BidListServiceImplTest {
     private BidListServiceImpl classUnderTest;
 
     @Test
-    void findAll() {
+    void findAllBids() {
 
         //GIVEN
-        BidList  bidList = new BidList();
+        BidList bidList = new BidList();
         List<BidList> bidLists = List.of(bidList);
 
         BidListDTO bidListDTO = new BidListDTO();
-        List<BidListDTO> bidListDTOs = List.of(bidListDTO);
+        List<BidListDTO> bidListDTOS = List.of(bidListDTO);
 
         when(bidListRepository.findAll()).thenReturn(bidLists);
         when(bidListMapper.BidListToBidListDTO(bidList)).thenReturn(bidListDTO);
 
         //WHEN
-        List<BidListDTO> result = classUnderTest.findAll();
+        List<BidListDTO> result = classUnderTest.findAllBids();
 
         //THEN
         verify(bidListRepository).findAll();
         verify(bidListMapper).BidListToBidListDTO(bidList);
-        assertThat(result).isEqualTo(bidListDTOs);
+        assertThat(result).isEqualTo(bidListDTOS);
     }
 
     @Test
@@ -72,6 +70,35 @@ class BidListServiceImplTest {
         verify(bidListMapper).BidListToBidListDTO(bidList);
         verify(bidListMapper).BidListDTOToBidList(bidListDTO);
         assertThat(result).isEqualTo(bidListDTO);
+    }
+
+    @Test
+    void getBidList() {
+
+        //GIVEN
+        BidList bidList = new BidList();
+        BidListDTO bidListDTO = new BidListDTO();
+
+        when(bidListRepository.findById(1)).thenReturn(Optional.of(bidList));
+        when(bidListMapper.BidListToBidListDTO(bidList)).thenReturn(bidListDTO);
+
+        //WHEN
+        BidListDTO result = classUnderTest.getBidList(1);
+
+        //THEN
+        verify(bidListRepository).findById(1);
+        verify(bidListMapper).BidListToBidListDTO(bidList);
+        assertThat(result).isEqualTo(bidListDTO);
+    }
+
+    @Test
+    void getBidListException() {
+
+        //GIVEN
+        when(bidListRepository.findById(1)).thenReturn(Optional.empty());
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.getBidList(1)).isInstanceOf(RuntimeException.class);
     }
 
     @Test
@@ -118,34 +145,5 @@ class BidListServiceImplTest {
 
         //WHEN+THEN
         assertThatThrownBy(() -> classUnderTest.deleteBidList(1)).isInstanceOf(RuntimeException.class);
-    }
-
-    @Test
-    void getBidList() {
-
-        //GIVEN
-        BidList bidList = new BidList();
-        BidListDTO bidListDTO = new BidListDTO();
-
-        when(bidListRepository.findById(1)).thenReturn(Optional.of(bidList));
-        when(bidListMapper.BidListToBidListDTO(bidList)).thenReturn(bidListDTO);
-
-        //WHEN
-        BidListDTO result = classUnderTest.getBidList(1);
-
-        //THEN
-        verify(bidListRepository).findById(1);
-        verify(bidListMapper).BidListToBidListDTO(bidList);
-        assertThat(result).isEqualTo(bidListDTO);
-    }
-
-    @Test
-    void getBidListException() {
-
-        //GIVEN
-        when(bidListRepository.findById(1)).thenReturn(Optional.empty());
-
-        //WHEN+THEN
-        assertThatThrownBy(() -> classUnderTest.getBidList(1)).isInstanceOf(RuntimeException.class);
     }
 }

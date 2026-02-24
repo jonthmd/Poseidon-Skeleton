@@ -19,5 +19,4 @@ public class BidListDTO {
     private String type;
 
     private Double bidQuantity;
-
 }

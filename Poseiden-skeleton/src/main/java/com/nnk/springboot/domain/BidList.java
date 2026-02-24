@@ -1,17 +1,11 @@
 package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-//import org.springframework.beans.factory.annotation.Required;
 
-//import javax.persistence.*;
-//import javax.validation.constraints.Digits;
-//import javax.validation.constraints.NotBlank;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Getter
@@ -21,40 +15,40 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "bidlist")
 public class BidList {
-    // TODO: Map columns in data table BIDLIST with corresponding java fields
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bid_list_id")
-    Integer id;
-    String account;
-    String type;
+    private Integer id;
+    private String account;
+    private String type;
     @Column(name = "bid_quantity")
-    Double bidQuantity;
+    private Double bidQuantity;
     @Column(name = "ask_quantity")
-    Double askQuantity;
-    Double bid;
-    Double ask;
-    String benchmark;
+    private Double askQuantity;
+    private Double bid;
+    private Double ask;
+    private String benchmark;
     @Column(name = "bid_list_date")
-    Timestamp bidListDate;
-    String commentary;
-    String security;
-    String status;
-    String trader;
-    String book;
+    private Timestamp bidListDate;
+    private String commentary;
+    private String security;
+    private String status;
+    private String trader;
+    private String book;
     @Column(name = "creation_name")
-    String creationName;
+    private String creationName;
     @Column(name = "creation_date")
-    Timestamp creationDate;
+    private Timestamp creationDate;
     @Column(name = "revision_name")
-    String revisionName;
+    private String revisionName;
     @Column(name = "revision_date")
-    Timestamp revisionDate;
+    private Timestamp revisionDate;
     @Column(name = "deal_name")
-    String dealName;
+    private String dealName;
     @Column(name = "deal_type")
-    String dealType;
+    private String dealType;
     @Column(name = "source_list_id")
-    String sourceListId;
-    String side;
+    private String sourceListId;
+    private String side;
 }

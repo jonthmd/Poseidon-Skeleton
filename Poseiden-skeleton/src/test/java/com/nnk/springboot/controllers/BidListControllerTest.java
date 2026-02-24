@@ -26,7 +26,7 @@ class BidListControllerTest {
 
     @Test
     @WithMockUser
-    void home() throws Exception {
+    void homeBid() throws Exception {
 
         mockMvc.perform(get("/bidList/list"))
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ class BidListControllerTest {
 
     @Test
     @WithMockUser
-    void validate() throws Exception {
+    void validateBid() throws Exception {
 
         mockMvc.perform(post("/bidList/validate")
                         .with(csrf())
@@ -59,7 +59,7 @@ class BidListControllerTest {
 
     @Test
     @WithMockUser
-    void validateError() throws Exception {
+    void validateBidError() throws Exception {
 
         mockMvc.perform(post("/bidList/validate")
                         .with(csrf()))
@@ -69,7 +69,7 @@ class BidListControllerTest {
 
     @Test
     @WithMockUser
-    void showUpdateForm() throws Exception {
+    void showUpdateBidForm() throws Exception {
 
         BidListDTO bidListDTO = new BidListDTO(1, "Account", "type", 1.0);
         when(bidListService.getBidList(1)).thenReturn(bidListDTO);

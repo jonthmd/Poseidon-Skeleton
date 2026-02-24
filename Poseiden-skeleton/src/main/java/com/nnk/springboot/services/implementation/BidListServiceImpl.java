@@ -8,7 +8,6 @@ import com.nnk.springboot.services.BidListService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BidListServiceImpl implements BidListService {
@@ -22,7 +21,7 @@ public class BidListServiceImpl implements BidListService {
     }
 
     @Override
-    public List<BidListDTO> findAll() {
+    public List<BidListDTO> findAllBids() {
 
         return bidListRepository.findAll()
                 .stream()
@@ -37,6 +36,18 @@ public class BidListServiceImpl implements BidListService {
         BidList saved = bidListRepository.save(bidList);
 
         return bidListMapper.BidListToBidListDTO(saved);
+    }
+
+    @Override
+    public BidListDTO getBidList(Integer id) {
+
+        BidList bidList = bidListRepository.findById(id).orElse(null);
+
+        if (bidList == null) {
+            throw new RuntimeException("BidList not found.");
+        }
+
+        return bidListMapper.BidListToBidListDTO(bidList);
     }
 
     @Override
@@ -58,17 +69,5 @@ public class BidListServiceImpl implements BidListService {
         }
 
         bidListRepository.deleteById(id);
-    }
-
-    @Override
-    public BidListDTO getBidList(Integer id) {
-
-        BidList bidList = bidListRepository.findById(id).orElse(null);
-
-        if (bidList == null) {
-            throw new RuntimeException("BidList not found.");
-        }
-
-        return bidListMapper.BidListToBidListDTO(bidList);
     }
 }
