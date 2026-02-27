@@ -109,18 +109,28 @@ class CurvePointServiceImplTest {
         CurvePoint curvePoint = new CurvePoint();
         CurvePointDTO curvePointDTO = new CurvePointDTO();
 
-        when(curvePointMapper.curvePointDTOToCurvePoint(curvePointDTO)).thenReturn(curvePoint);
+        when(curvePointRepository.findById(1)).thenReturn(Optional.of(curvePoint));
         when(curvePointRepository.save(curvePoint)).thenReturn(curvePoint);
         when(curvePointMapper.curvePointToCurvePointDTO(curvePoint)).thenReturn(curvePointDTO);
 
         //WHEN
-        CurvePointDTO result = classUnderTest.updateCurvePoint(curvePointDTO);
+        CurvePointDTO result = classUnderTest.updateCurvePoint(1, curvePointDTO);
 
         //THEN
         verify(curvePointRepository).save(curvePoint);
         verify(curvePointMapper).curvePointToCurvePointDTO(curvePoint);
-        verify(curvePointMapper).curvePointDTOToCurvePoint(curvePointDTO);
         assertThat(result).isEqualTo(curvePointDTO);
+    }
+
+    @Test
+    void updateCurvePointException() {
+
+        //GIVEN
+        CurvePointDTO curvePointDTO = new CurvePointDTO();
+        when(curvePointRepository.findById(1)).thenReturn(Optional.empty());
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.updateCurvePoint(1, curvePointDTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test

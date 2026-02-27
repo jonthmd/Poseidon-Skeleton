@@ -51,9 +51,17 @@ public class BidListServiceImpl implements BidListService {
     }
 
     @Override
-    public BidListDTO updateBidList(BidListDTO bidListDTO) {
+    public BidListDTO updateBidList(Integer id, BidListDTO bidListDTO) {
 
-        BidList bidList = bidListMapper.BidListDTOToBidList(bidListDTO);
+        BidList bidList = bidListRepository.findById(id).orElse(null);
+
+        if (bidList == null) {
+            throw new RuntimeException("BidList not found.");
+        }
+        bidList.setAccount(bidListDTO.getAccount());
+        bidList.setType(bidListDTO.getType());
+        bidList.setBidQuantity(bidListDTO.getBidQuantity());
+
         BidList updated = bidListRepository.save(bidList);
 
         return bidListMapper.BidListToBidListDTO(updated);

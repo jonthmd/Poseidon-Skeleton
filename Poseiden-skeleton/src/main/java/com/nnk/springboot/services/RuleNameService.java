@@ -12,7 +12,7 @@ public interface RuleNameService {
 
     RuleNameDTO getRuleName(Integer id);
 
-    RuleNameDTO updateRuleName(RuleNameDTO ruleNameDTO);
+    RuleNameDTO updateRuleName(Integer id, RuleNameDTO ruleNameDTO);
 
     void deleteRuleName(Integer id);
 }

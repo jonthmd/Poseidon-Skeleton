@@ -61,8 +61,7 @@ public class RuleNameController {
             return "ruleName/update";
         }
 
-        ruleNameService.getRuleName(id);
-        ruleNameService.updateRuleName(ruleNameDTO);
+        ruleNameService.updateRuleName(id, ruleNameDTO);
 
         return "redirect:/ruleName/list";
     }

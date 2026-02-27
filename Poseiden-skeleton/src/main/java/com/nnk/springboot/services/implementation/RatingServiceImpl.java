@@ -51,9 +51,19 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public RatingDTO updateRating(RatingDTO ratingDTO) {
+    public RatingDTO updateRating(Integer id, RatingDTO ratingDTO) {
 
-        Rating rating = ratingMapper.ratingDTOToRating(ratingDTO);
+        Rating rating = ratingRepository.findById(id).orElse(null);
+
+        if (rating == null) {
+            throw new RuntimeException("Rating not found");
+        }
+
+        rating.setMoodysRating(ratingDTO.getMoodysRating());
+        rating.setFitchRating(ratingDTO.getFitchRating());
+        rating.setOrder(ratingDTO.getOrder());
+        rating.setFitchRating(ratingDTO.getFitchRating());
+
         Rating updated = ratingRepository.save(rating);
 
         return ratingMapper.ratingToRatingDTO(updated);

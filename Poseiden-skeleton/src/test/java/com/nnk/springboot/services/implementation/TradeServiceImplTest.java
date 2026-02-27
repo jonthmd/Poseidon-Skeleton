@@ -109,18 +109,28 @@ class TradeServiceImplTest {
         Trade trade = new Trade();
         TradeDTO tradeDTO = new TradeDTO();
 
-        when(tradeMapper.tradeDTOToTrade(tradeDTO)).thenReturn(trade);
+        when(tradeRepository.findById(1)).thenReturn(Optional.of(trade));
         when(tradeRepository.save(trade)).thenReturn(trade);
         when(tradeMapper.tradeToTradeDTO(trade)).thenReturn(tradeDTO);
 
         //WHEN
-        TradeDTO result = classUnderTest.updateTrade(tradeDTO);
+        TradeDTO result = classUnderTest.updateTrade(1, tradeDTO);
 
         //THEN
         verify(tradeRepository).save(trade);
-        verify(tradeMapper).tradeDTOToTrade(tradeDTO);
         verify(tradeMapper).tradeToTradeDTO(trade);
         assertThat(result).isEqualTo(tradeDTO);
+    }
+
+    @Test
+    void updateRuleNameException() {
+
+        //GIVEN
+        TradeDTO tradeDTO = new TradeDTO();
+        when(tradeRepository.findById(1)).thenReturn(Optional.empty());
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.updateTrade(1, tradeDTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test

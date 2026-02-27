@@ -60,8 +60,7 @@ public class CurvePointController {
             return "curvePoint/update";
         }
 
-        curvePointService.getCurvePoint(id);
-        curvePointService.updateCurvePoint(curvePointDTO);
+        curvePointService.updateCurvePoint(id, curvePointDTO);
 
         return "redirect:/curvePoint/list";
     }

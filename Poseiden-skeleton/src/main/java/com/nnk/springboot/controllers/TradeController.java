@@ -60,8 +60,7 @@ public class TradeController {
             return "trade/update";
         }
 
-        tradeService.getTrade(id);
-        tradeService.updateTrade(tradeDTO);
+        tradeService.updateTrade(id, tradeDTO);
 
         return "redirect:/trade/list";
     }

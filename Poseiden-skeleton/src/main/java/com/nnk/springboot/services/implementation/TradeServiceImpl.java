@@ -51,9 +51,18 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public TradeDTO updateTrade(TradeDTO tradeDTO) {
+    public TradeDTO updateTrade(Integer id, TradeDTO tradeDTO) {
 
-        Trade trade = tradeMapper.tradeDTOToTrade(tradeDTO);
+        Trade trade = tradeRepository.findById(id).orElse(null);
+
+        if (trade == null) {
+            throw new RuntimeException("Trade not found");
+        }
+
+        trade.setType(tradeDTO.getType());
+        trade.setBuyQuantity(tradeDTO.getBuyQuantity());
+        trade.setAccount(tradeDTO.getAccount());
+
         Trade updated = tradeRepository.save(trade);
 
         return tradeMapper.tradeToTradeDTO(updated);

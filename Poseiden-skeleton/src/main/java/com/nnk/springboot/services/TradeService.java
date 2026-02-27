@@ -12,7 +12,7 @@ public interface TradeService {
 
     TradeDTO getTrade(Integer id);
 
-    TradeDTO updateTrade(TradeDTO tradeDTO);
+    TradeDTO updateTrade(Integer id, TradeDTO tradeDTO);
 
     void deleteTrade(Integer id);
 }

@@ -12,7 +12,7 @@ public interface RatingService {
 
     RatingDTO getRating(Integer id);
 
-    RatingDTO updateRating(RatingDTO ratingDTO);
+    RatingDTO updateRating(Integer id, RatingDTO ratingDTO);
 
     void deleteRating(Integer id);
 }

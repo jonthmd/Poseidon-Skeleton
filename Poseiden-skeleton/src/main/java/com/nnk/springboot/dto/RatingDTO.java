@@ -12,12 +12,16 @@ import lombok.NoArgsConstructor;
 public class RatingDTO {
 
     private Integer id;
+
     @NotBlank(message = "Rating is mandatory.")
     private String moodysRating;
+
     @NotBlank(message = "Rating is mandatory.")
     private String sandPRating;
+
     @NotBlank(message = "Rating is mandatory.")
     private String fitchRating;
+
     @Min(value = 1, message = "Order must be greater than or equal to 1.")
     private Integer order;
 }

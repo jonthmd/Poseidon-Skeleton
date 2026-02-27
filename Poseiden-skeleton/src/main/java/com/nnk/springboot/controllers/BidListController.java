@@ -60,8 +60,7 @@ public class BidListController {
             return "bidList/update";
         }
 
-        bidListService.getBidList(id);
-        bidListService.updateBidList(bidListDTO);
+        bidListService.updateBidList(id, bidListDTO);
 
         return "redirect:/bidList/list";
     }

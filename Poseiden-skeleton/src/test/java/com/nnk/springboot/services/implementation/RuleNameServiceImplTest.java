@@ -105,21 +105,31 @@ class RuleNameServiceImplTest {
     void updateRuleName() {
 
         // GIVEN
-        RuleName entity = new RuleName();
-        RuleNameDTO dto = new RuleNameDTO();
+        RuleName ruleName = new RuleName();
+        RuleNameDTO ruleNameDTO = new RuleNameDTO();
 
-        when(ruleNameMapper.ruleNameDTOToRuleName(dto)).thenReturn(entity);
-        when(ruleNameRepository.save(entity)).thenReturn(entity);
-        when(ruleNameMapper.ruleNameToRuleNameDTO(entity)).thenReturn(dto);
+        when(ruleNameRepository.findById(1)).thenReturn(Optional.of(ruleName));
+        when(ruleNameRepository.save(ruleName)).thenReturn(ruleName);
+        when(ruleNameMapper.ruleNameToRuleNameDTO(ruleName)).thenReturn(ruleNameDTO);
 
         //WHEN
-        RuleNameDTO result = classUnderTest.updateRuleName(dto);
+        RuleNameDTO result = classUnderTest.updateRuleName(1, ruleNameDTO);
 
         //THEN
-        verify(ruleNameRepository).save(entity);
-        verify(ruleNameMapper).ruleNameDTOToRuleName(dto);
-        verify(ruleNameMapper).ruleNameToRuleNameDTO(entity);
-        assertThat(result).isEqualTo(dto);
+        verify(ruleNameRepository).save(ruleName);
+        verify(ruleNameMapper).ruleNameToRuleNameDTO(ruleName);
+        assertThat(result).isEqualTo(ruleNameDTO);
+    }
+
+    @Test
+    void updateRuleNameException() {
+
+        //GIVEN
+        RuleNameDTO ruleNameDTO = new RuleNameDTO();
+        when(ruleNameRepository.findById(1)).thenReturn(Optional.empty());
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.updateRuleName(1, ruleNameDTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test

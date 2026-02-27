@@ -108,18 +108,28 @@ class BidListServiceImplTest {
         BidList bidList = new BidList();
         BidListDTO bidListDTO = new BidListDTO();
 
-        when(bidListMapper.BidListDTOToBidList(bidListDTO)).thenReturn(bidList);
+        when(bidListRepository.findById(1)).thenReturn(Optional.of(bidList));
         when(bidListRepository.save(bidList)).thenReturn(bidList);
         when(bidListMapper.BidListToBidListDTO(bidList)).thenReturn(bidListDTO);
 
         //WHEN
-        BidListDTO result = classUnderTest.updateBidList(bidListDTO);
+        BidListDTO result = classUnderTest.updateBidList(1, bidListDTO);
 
         //THEN
+        verify(bidListRepository).findById(1);
         verify(bidListRepository).save(bidList);
-        verify(bidListMapper).BidListToBidListDTO(bidList);
-        verify(bidListMapper).BidListDTOToBidList(bidListDTO);
         assertThat(result).isEqualTo(bidListDTO);
+    }
+
+    @Test
+    void updateBidListException() {
+
+        //GIVEN
+        BidListDTO bidListDTO = new BidListDTO();
+        when(bidListRepository.findById(1)).thenReturn(Optional.empty());
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.updateBidList(1, bidListDTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test

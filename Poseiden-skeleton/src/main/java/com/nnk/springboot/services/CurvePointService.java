@@ -12,7 +12,7 @@ public interface CurvePointService {
 
     CurvePointDTO getCurvePoint(Integer id);
 
-    CurvePointDTO updateCurvePoint(CurvePointDTO curvePointDTO);
+    CurvePointDTO updateCurvePoint(Integer id, CurvePointDTO curvePointDTO);
 
     void deleteCurvePoint(Integer id);
 }

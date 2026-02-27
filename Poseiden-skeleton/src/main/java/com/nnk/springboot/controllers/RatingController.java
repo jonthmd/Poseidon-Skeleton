@@ -60,8 +60,7 @@ public class RatingController {
             return "rating/update";
         }
 
-        ratingService.getRating(id);
-        ratingService.updateRating(ratingDTO);
+        ratingService.updateRating(id, ratingDTO);
 
         return "redirect:/rating/list";
     }

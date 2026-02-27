@@ -51,9 +51,21 @@ public class RuleNameServiceImpl implements RuleNameService {
     }
 
     @Override
-    public RuleNameDTO updateRuleName(RuleNameDTO ruleNameDTO) {
+    public RuleNameDTO updateRuleName(Integer id, RuleNameDTO ruleNameDTO) {
 
-        RuleName ruleName = ruleNameMapper.ruleNameDTOToRuleName(ruleNameDTO);
+        RuleName ruleName = ruleNameRepository.findById(id).orElse(null);
+
+        if (ruleName == null) {
+            throw new RuntimeException("RuleName not found");
+        }
+
+        ruleName.setName(ruleNameDTO.getName());
+        ruleName.setDescription(ruleNameDTO.getDescription());
+        ruleName.setJson(ruleNameDTO.getJson());
+        ruleName.setSqlPart(ruleNameDTO.getSqlPart());
+        ruleName.setSql(ruleNameDTO.getSql());
+        ruleName.setTemplate(ruleNameDTO.getTemplate());
+
         RuleName updated = ruleNameRepository.save(ruleName);
 
         return ruleNameMapper.ruleNameToRuleNameDTO(updated);

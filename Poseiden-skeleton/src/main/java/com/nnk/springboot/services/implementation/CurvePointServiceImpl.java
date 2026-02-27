@@ -51,9 +51,18 @@ public class CurvePointServiceImpl implements CurvePointService {
     }
 
     @Override
-    public CurvePointDTO updateCurvePoint(CurvePointDTO curvePointDTO) {
+    public CurvePointDTO updateCurvePoint(Integer id, CurvePointDTO curvePointDTO) {
 
-        CurvePoint curvePoint = curvePointMapper.curvePointDTOToCurvePoint(curvePointDTO);
+        CurvePoint curvePoint = curvePointRepository.findById(id).orElse(null);
+
+        if (curvePoint == null) {
+            throw new RuntimeException("Curve point not found.");
+        }
+
+        curvePoint.setCurveId(curvePointDTO.getCurveId());
+        curvePoint.setTerm(curvePointDTO.getTerm());
+        curvePoint.setValue(curvePointDTO.getValue());
+
         CurvePoint updated = curvePointRepository.save(curvePoint);
 
         return curvePointMapper.curvePointToCurvePointDTO(updated);

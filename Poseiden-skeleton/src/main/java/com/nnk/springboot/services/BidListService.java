@@ -12,7 +12,7 @@ public interface BidListService {
 
     BidListDTO getBidList(Integer id);
 
-    BidListDTO updateBidList(BidListDTO bidListDTO);
+    BidListDTO updateBidList(Integer id, BidListDTO bidListDTO);
 
     void deleteBidList(Integer id);
 }

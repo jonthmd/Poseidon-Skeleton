@@ -109,18 +109,28 @@ class RatingServiceImplTest {
         Rating rating = new Rating();
         RatingDTO ratingDTO = new RatingDTO();
 
-        when(ratingMapper.ratingDTOToRating(ratingDTO)).thenReturn(rating);
+        when(ratingRepository.findById(1)).thenReturn(Optional.of(rating));
         when(ratingRepository.save(rating)).thenReturn(rating);
         when(ratingMapper.ratingToRatingDTO(rating)).thenReturn(ratingDTO);
 
         //WHEN
-        RatingDTO result = classUnderTest.updateRating(ratingDTO);
+        RatingDTO result = classUnderTest.updateRating(1, ratingDTO);
 
         //THEN
         verify(ratingRepository).save(rating);
         verify(ratingMapper).ratingToRatingDTO(rating);
-        verify(ratingMapper).ratingDTOToRating(ratingDTO);
         assertThat(result).isEqualTo(ratingDTO);
+    }
+
+    @Test
+    void updateRatingException() {
+
+        //GIVEN
+        RatingDTO ratingDTO = new RatingDTO();
+        when(ratingRepository.findById(1)).thenReturn(Optional.empty());
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.updateRating(1, ratingDTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test
