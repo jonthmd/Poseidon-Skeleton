@@ -24,6 +24,14 @@ class LoginControllerTest {
 
     @Test
     @WithMockUser
+    void redirectToLogin() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
+    }
+
+    @Test
+    @WithMockUser
     void login() throws Exception {
 
         mockMvc.perform(get("/login"))
@@ -45,7 +53,7 @@ class LoginControllerTest {
     @WithMockUser
     void error() throws Exception {
 
-        mockMvc.perform(get("/error"))
+        mockMvc.perform(get("/403"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("403"))
                 .andExpect(model().attributeExists("errorMsg"));

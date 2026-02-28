@@ -52,7 +52,7 @@ class UserControllerTest {
                         .with(csrf())
                         .param("username", "jon")
                         .param("password", "Jon1234!")
-                        .param("fullname", "Jon")
+                        .param("fullName", "Jon")
                         .param("role", "USER"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/user/list"));
@@ -90,9 +90,10 @@ class UserControllerTest {
 
         mockMvc.perform(post("/user/update/{id}", 1)
                         .with(csrf())
+                        .param("id", "1")
                         .param("username", "Noj")
                         .param("password", "Noj1234!")
-                        .param("fullname", "Noj")
+                        .param("fullName", "Noj")
                         .param("role", "USER"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/user/list"));

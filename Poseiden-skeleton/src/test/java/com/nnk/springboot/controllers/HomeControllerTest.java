@@ -17,16 +17,16 @@ class HomeControllerTest {
 
     @Test
     @WithMockUser
-    void home_shouldReturnHomeView() throws Exception {
+    void home() throws Exception {
 
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/home"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"));
     }
 
     @Test
     @WithMockUser
-    void adminHome_shouldRedirectToBidList() throws Exception {
+    void adminHome() throws Exception {
 
         mockMvc.perform(get("/admin/home"))
                 .andExpect(status().is3xxRedirection())

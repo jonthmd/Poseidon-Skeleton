@@ -3,17 +3,17 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8"/>
-<title>Home</title>
+<title>User</title>
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
 	<div class="row">
 		<div class="col-6">
-
+			<div th:replace="../fragments/menu :: menu"></div>
 		</div>
 		<div class="col-6 text-right">
-			<a href="/">Home</a>&nbsp;|&nbsp;<a href="/login">Login</a>
+			<div th:replace="../fragments/menu :: homeLink"></div>
 		</div>
 	</div>
 	<div class="row"><h2>User List</h2></div>

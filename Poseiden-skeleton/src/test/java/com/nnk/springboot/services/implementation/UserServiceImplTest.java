@@ -157,6 +157,52 @@ class UserServiceImplTest {
     }
 
     @Test
+    void updateUserAdmin() {
+
+        //GIVEN
+        User user = new User();
+        user.setRole("ADMIN");
+        user.setPassword("Jon1234!");
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setRole("USER");
+        userDTO.setPassword("Jon1234!");
+
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.countByRole("ADMIN")).thenReturn(2);
+        when(userRepository.save(user)).thenReturn(user);
+        when(userMapper.userToUserDTO(user)).thenReturn(userDTO);
+
+        //WHEN
+        UserDTO result = classUnderTest.updateUser(1, userDTO);
+
+        //THEN
+        verify(userRepository).findById(1);
+        verify(userRepository).countByRole("ADMIN");
+        verify(userMapper).userToUserDTO(user);
+        assertThat(result).isEqualTo(userDTO);
+    }
+
+    @Test
+    void updateUserAdminException() {
+
+        //GIVEN
+        User user = new User();
+        user.setRole("ADMIN");
+        user.setPassword("Jon1234!");
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setRole("USER");
+        userDTO.setPassword("Jon1234!");
+
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.countByRole("ADMIN")).thenReturn(1);
+
+        //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.updateUser(1, new UserDTO())).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
     void deleteUser() {
 
         //GIVEN
@@ -178,6 +224,38 @@ class UserServiceImplTest {
         when(userRepository.findById(1)).thenReturn(Optional.empty());
 
         //WHEN+THEN
+        assertThatThrownBy(() -> classUnderTest.deleteUser(1)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    void deleteUserAdmin() {
+
+        //GIVEN
+        User user = new User();
+        user.setRole("ADMIN");
+        user.setPassword("Jon1234!");
+
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.countByRole("ADMIN")).thenReturn(2);
+
+        //WHEN
+        classUnderTest.deleteUser(1);
+
+        //THEN
+        verify(userRepository).findById(1);
+        verify(userRepository).deleteById(1);
+    }
+
+    @Test
+    void deleteUserAdminException() {
+
+        User user = new User();
+        user.setRole("ADMIN");
+        user.setPassword("Jon1234!");
+
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.countByRole("ADMIN")).thenReturn(1);
+
         assertThatThrownBy(() -> classUnderTest.deleteUser(1)).isInstanceOf(RuntimeException.class);
     }
 }

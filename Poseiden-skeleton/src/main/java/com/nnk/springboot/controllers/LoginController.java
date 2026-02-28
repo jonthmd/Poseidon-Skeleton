@@ -15,6 +15,11 @@ public class LoginController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/")
+    public String redirectToLogin() {
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView mav = new ModelAndView();

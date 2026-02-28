@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     User findByUsername(String username);
     boolean existsByUsername(String username);
+    int countByRole(String role);
 }

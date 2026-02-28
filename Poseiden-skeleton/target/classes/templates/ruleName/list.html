@@ -3,24 +3,17 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8"/>
-<title>Home</title>
+<title>Rule</title>
 <link rel="stylesheet" href="../../css/bootstrap.min.css" >
 </head>
 <body>
 <div class="container">
 	<div class="row">
 		<div class="col-6">
-			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
-			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
-			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
-			<a href="/ruleName/list">Rule</a>
+			<div th:replace="../fragments/menu :: menu"></div>
 		</div>
 		<div class="col-6 text-right">
-			Logged in user: <b th:text="${#authentication.name}">user</b>
-			<form th:action="@{/logout}" method="POST">
-				<input type="submit" value="Logout"/>
-			</form>
+			<div th:replace="../fragments/menu :: homeLink"></div>
 		</div>
 	</div>
 	<div class="row"><h2>Rule List</h2></div>

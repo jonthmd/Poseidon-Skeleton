@@ -2,12 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title> Spring Boot </title>
-    <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
 </head>
 <body>
-<h3> HOME PAGE </h3>
-<p>
-    <a href="/login">Login</a> or create one <a href="/user/list">User management</a>
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div th:replace="../fragments/menu :: menu"></div>
+        </div>
+        <div class="col-6 text-right">
+            <a class="col-6 text-right">
+                Logged in user: <b th:text="${#authentication.name}">user</b>
+                <form th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout"/>
+                </form>
+            </a>
+        </div>
+    </div>
+    <h3> HOME PAGE </h3>
+    <p>
+
+    </p>
+</div>
 </body>
 </html>

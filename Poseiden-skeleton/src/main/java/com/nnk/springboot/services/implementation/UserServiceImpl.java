@@ -70,6 +70,13 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found");
         }
 
+        if ("ADMIN".equals(user.getRole()) && !"ADMIN".equals(userDTO.getRole())) {
+            int adminCount = userRepository.countByRole("ADMIN");
+            if (adminCount <=1) {
+                throw new RuntimeException("You are not allowed to change the last admin's role to USER.");
+            }
+        }
+
         user.setFullName(userDTO.getFullName());
         user.setRole(userDTO.getRole());
 
@@ -90,6 +97,13 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             throw new RuntimeException("User not found");
+        }
+
+        if ("ADMIN".equals(user.getRole())) {
+            int adminCount = userRepository.countByRole("ADMIN");
+            if (adminCount <=1) {
+                throw new RuntimeException("You are not allowed to delete the last admin.");
+            }
         }
 
         userRepository.deleteById(id);
