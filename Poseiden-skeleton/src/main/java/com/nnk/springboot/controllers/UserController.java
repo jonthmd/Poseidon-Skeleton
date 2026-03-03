@@ -1,12 +1,15 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.dto.UserDTO;
+import com.nnk.springboot.exceptions.DeleteAdminException;
+import com.nnk.springboot.exceptions.UpdateAdminException;
 import com.nnk.springboot.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -53,21 +56,32 @@ public class UserController {
     }
 
     @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, @Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result) {
+    public String updateUser(@PathVariable("id") Integer id, @Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             return "user/update";
         }
 
-        userService.updateUser(id, userDTO);
+        try {
+            userService.updateUser(id, userDTO);
 
-        return "redirect:/user/list";
+            return "redirect:/user/list";
+
+        } catch (UpdateAdminException e) {
+            model.addAttribute("error", e.getMessage());
+
+            return "user/update";
+        }
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id) {
+    public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 
-        userService.deleteUser(id);
+        try {
+            userService.deleteUser(id);
+        } catch (DeleteAdminException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
 
         return "redirect:/user/list";
     }

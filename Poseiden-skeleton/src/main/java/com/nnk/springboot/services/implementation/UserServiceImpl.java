@@ -2,6 +2,8 @@ package com.nnk.springboot.services.implementation;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.UserDTO;
+import com.nnk.springboot.exceptions.DeleteAdminException;
+import com.nnk.springboot.exceptions.UpdateAdminException;
 import com.nnk.springboot.mapper.UserMapper;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.UserService;
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException("User not found.");
         }
 
         return userMapper.userToUserDTO(user);
@@ -67,13 +69,13 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException("User not found.");
         }
 
         if ("ADMIN".equals(user.getRole()) && !"ADMIN".equals(userDTO.getRole())) {
             int adminCount = userRepository.countByRole("ADMIN");
             if (adminCount <=1) {
-                throw new RuntimeException("You are not allowed to change the last admin's role to USER.");
+                throw new UpdateAdminException("You are not allowed to change the last admin's role to USER.");
             }
         }
 
@@ -96,13 +98,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException("User not found.");
         }
 
         if ("ADMIN".equals(user.getRole())) {
             int adminCount = userRepository.countByRole("ADMIN");
             if (adminCount <=1) {
-                throw new RuntimeException("You are not allowed to delete the last admin.");
+                throw new DeleteAdminException("You are not allowed to delete the last admin.");
             }
         }
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BidListServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-skeleton</a> &gt; <a href="index.source.html" class="el_package">com.nnk.springboot.services.implementation</a> &gt; <span class="el_source">BidListServiceImpl.java</span></div><h1>BidListServiceImpl.java</h1><pre class="source lang-java linenums">package com.nnk.springboot.services.implementation;
+
+import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.dto.BidListDTO;
+import com.nnk.springboot.mapper.BidListMapper;
+import com.nnk.springboot.repositories.BidListRepository;
+import com.nnk.springboot.services.BidListService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BidListServiceImpl implements BidListService {
+
+    private final BidListRepository bidListRepository;
+    private final BidListMapper bidListMapper;
+
+<span class="fc" id="L18">    public BidListServiceImpl(BidListRepository bidListRepository, BidListMapper bidListMapper) {</span>
+<span class="fc" id="L19">        this.bidListRepository = bidListRepository;</span>
+<span class="fc" id="L20">        this.bidListMapper = bidListMapper;</span>
+<span class="fc" id="L21">    }</span>
+
+    @Override
+    public List&lt;BidListDTO&gt; findAllBids() {
+
+<span class="fc" id="L26">        return bidListRepository.findAll()</span>
+<span class="fc" id="L27">                .stream()</span>
+<span class="fc" id="L28">                .map(bidListMapper::BidListToBidListDTO)</span>
+<span class="fc" id="L29">                .toList();</span>
+    }
+
+    @Override
+    public BidListDTO addBidList(BidListDTO bidListDTO) {
+
+<span class="fc" id="L35">        BidList bidList = bidListMapper.BidListDTOToBidList(bidListDTO);</span>
+<span class="fc" id="L36">        BidList saved = bidListRepository.save(bidList);</span>
+
+<span class="fc" id="L38">        return bidListMapper.BidListToBidListDTO(saved);</span>
+    }
+
+    @Override
+    public BidListDTO getBidList(Integer id) {
+
+<span class="fc" id="L44">        BidList bidList = bidListRepository.findById(id).orElse(null);</span>
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (bidList == null) {</span>
+<span class="fc" id="L47">            throw new RuntimeException(&quot;BidList not found.&quot;);</span>
+        }
+
+<span class="fc" id="L50">        return bidListMapper.BidListToBidListDTO(bidList);</span>
+    }
+
+    @Override
+    public BidListDTO updateBidList(Integer id, BidListDTO bidListDTO) {
+
+<span class="fc" id="L56">        BidList bidList = bidListRepository.findById(id).orElse(null);</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (bidList == null) {</span>
+<span class="fc" id="L59">            throw new RuntimeException(&quot;BidList not found.&quot;);</span>
+        }
+<span class="fc" id="L61">        bidList.setAccount(bidListDTO.getAccount());</span>
+<span class="fc" id="L62">        bidList.setType(bidListDTO.getType());</span>
+<span class="fc" id="L63">        bidList.setBidQuantity(bidListDTO.getBidQuantity());</span>
+
+<span class="fc" id="L65">        BidList updated = bidListRepository.save(bidList);</span>
+
+<span class="fc" id="L67">        return bidListMapper.BidListToBidListDTO(updated);</span>
+    }
+
+    @Override
+    public void deleteBidList(Integer id) {
+
+<span class="fc" id="L73">        BidList bidList = bidListRepository.findById(id).orElse(null);</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (bidList == null) {</span>
+<span class="fc" id="L76">            throw new RuntimeException(&quot;BidList not found.&quot;);</span>
+        }
+
+<span class="fc" id="L79">        bidListRepository.deleteById(id);</span>
+<span class="fc" id="L80">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

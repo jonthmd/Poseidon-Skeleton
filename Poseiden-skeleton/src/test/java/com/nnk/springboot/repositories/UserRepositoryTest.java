@@ -48,4 +48,22 @@ class UserRepositoryTest {
         //THEN
         assertThat(result).isTrue();
     }
+
+    @Test
+    void countByRole() {
+
+        //GIVEN
+        User user = new User();
+        user.setUsername("jon");
+        user.setPassword("Jon1234!");
+        user.setFullName("jon");
+        user.setRole("ADMIN");
+        userRepository.save(user);
+
+        //WHEN
+        int result = userRepository.countByRole("ADMIN");
+
+        //THEN
+        assertThat(result).isEqualTo(1);
+    }
 }

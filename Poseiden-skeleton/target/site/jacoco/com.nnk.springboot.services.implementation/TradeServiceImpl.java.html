@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TradeServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-skeleton</a> &gt; <a href="index.source.html" class="el_package">com.nnk.springboot.services.implementation</a> &gt; <span class="el_source">TradeServiceImpl.java</span></div><h1>TradeServiceImpl.java</h1><pre class="source lang-java linenums">package com.nnk.springboot.services.implementation;
+
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.dto.TradeDTO;
+import com.nnk.springboot.mapper.TradeMapper;
+import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.services.TradeService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TradeServiceImpl implements TradeService {
+
+    private final TradeRepository tradeRepository;
+    private final TradeMapper tradeMapper;
+
+<span class="fc" id="L18">    public TradeServiceImpl(TradeRepository tradeRepository, TradeMapper tradeMapper) {</span>
+<span class="fc" id="L19">        this.tradeRepository = tradeRepository;</span>
+<span class="fc" id="L20">        this.tradeMapper = tradeMapper;</span>
+<span class="fc" id="L21">    }</span>
+
+    @Override
+    public List&lt;TradeDTO&gt; findAllTrades() {
+
+<span class="fc" id="L26">        return tradeRepository.findAll()</span>
+<span class="fc" id="L27">                .stream()</span>
+<span class="fc" id="L28">                .map(tradeMapper::tradeToTradeDTO)</span>
+<span class="fc" id="L29">                .toList();</span>
+    }
+
+    @Override
+    public TradeDTO addTrade(TradeDTO tradeDTO) {
+
+<span class="fc" id="L35">        Trade trade = tradeMapper.tradeDTOToTrade(tradeDTO);</span>
+<span class="fc" id="L36">        Trade saved = tradeRepository.save(trade);</span>
+
+<span class="fc" id="L38">        return tradeMapper.tradeToTradeDTO(saved);</span>
+    }
+
+    @Override
+    public TradeDTO getTrade(Integer id) {
+
+<span class="fc" id="L44">        Trade trade = tradeRepository.findById(id).orElse(null);</span>
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (trade == null) {</span>
+<span class="fc" id="L47">            throw new RuntimeException(&quot;Trade not found&quot;);</span>
+        }
+
+<span class="fc" id="L50">        return tradeMapper.tradeToTradeDTO(trade);</span>
+    }
+
+    @Override
+    public TradeDTO updateTrade(Integer id, TradeDTO tradeDTO) {
+
+<span class="fc" id="L56">        Trade trade = tradeRepository.findById(id).orElse(null);</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (trade == null) {</span>
+<span class="fc" id="L59">            throw new RuntimeException(&quot;Trade not found&quot;);</span>
+        }
+
+<span class="fc" id="L62">        trade.setType(tradeDTO.getType());</span>
+<span class="fc" id="L63">        trade.setBuyQuantity(tradeDTO.getBuyQuantity());</span>
+<span class="fc" id="L64">        trade.setAccount(tradeDTO.getAccount());</span>
+
+<span class="fc" id="L66">        Trade updated = tradeRepository.save(trade);</span>
+
+<span class="fc" id="L68">        return tradeMapper.tradeToTradeDTO(updated);</span>
+    }
+
+    @Override
+    public void deleteTrade(Integer id) {
+
+<span class="fc" id="L74">        Trade trade = tradeRepository.findById(id).orElse(null);</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (trade == null) {</span>
+<span class="fc" id="L77">            throw new RuntimeException(&quot;Trade not found&quot;);</span>
+        }
+
+<span class="fc" id="L80">        tradeRepository.deleteById(id);</span>
+<span class="fc" id="L81">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
