@@ -38,22 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException( "Username"  + username + " is not found.");
         }
 
-        System.out.println("Username: " + user.getUsername());
-        System.out.println("Role from DB: " + user.getRole());
-
         return new User(user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
     }
-
-//    /**
-//     * Returns authorities of the user.
-//     *
-//     * @return A list of authorities.
-//     */
-//    private List<GrantedAuthority> getGrantedAuthorities() {
-//
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//
-//        return authorities;
-//    }
 }

@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService {
         if(!userDTO.getPassword().isBlank()){
             user.setPassword(password);
         }
-        user.setPassword(password);
 
         User updated = userRepository.save(user);
 

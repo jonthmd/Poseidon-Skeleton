@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.Objects;
-
 /**
  * Spring Security configuration to set authentication and authorization parameters on specific pages of the app.
  */
@@ -37,24 +35,13 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/403", "/css/**", "/js/**", "/images/**")
                         .permitAll()
-                        .requestMatchers("/home", "/secure/article-details", "/user/**")
+                        .requestMatchers("/secure/article-details", "/user/**")
                         .hasRole("ADMIN")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .successHandler((request, response, authentication) -> {
-
-                            boolean isAdmin = authentication.getAuthorities()
-                                    .stream()
-                                    .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_ADMIN"));
-
-                            if (isAdmin) {
-                                response.sendRedirect("/home");
-                            } else {
-                                response.sendRedirect("/bidList/list");
-                            }
-                        })
+                        .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )

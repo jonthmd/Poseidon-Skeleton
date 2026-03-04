@@ -43,7 +43,7 @@ Use the following accounts to use the application :
 
 Username/Password: admin/Admin123! (Admin account)
 
-Username/Password: user/Admin123! (User account)
+Username/Password: user/User123! (User account)
 
 --
 
